@@ -420,7 +420,7 @@ s32 *v_temperature_s32)
 			/* read uncompensated pressure and temperature*/
 			com_rslt = bmp280_read_uncomp_pressure_temperature(
 			&v_uncomp_pressure_s32, &v_uncomp_temperature_s32);
-			/* read trure pressure and temperature*/
+			/* read true pressure and temperature*/
 			*v_temperature_s32 =
 			bmp280_compensate_temperature_int32(
 			v_uncomp_temperature_s32);
