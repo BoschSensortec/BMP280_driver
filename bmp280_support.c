@@ -150,7 +150,7 @@ s32 bmp280_data_readout_template(void)
 	u32 v_actual_press_combined_u32 = BMP280_INIT_VALUE;
 
 	/* result of communication results*/
-	s32 com_rslt = ERROR;
+	s32 com_rslt = BMP_ERROR;
 /*********************** START INITIALIZATION ************************/
   /*	Based on the user need configure I2C or SPI interface.
    *	It is example code to explain how to use the bmp280 API*/
@@ -320,7 +320,7 @@ s8 SPI_routine(void) {
  *		which is written in the register
  *	\param cnt : The no of bytes of data to be written
  */
-s8  BMP280_I2C_bus_write(u8 dev_addr, u8 reg_addr, u8 *reg_data, u8 cnt)
+__weak s8  BMP280_I2C_bus_write(u8 dev_addr, u8 reg_addr, u8 *reg_data, u8 cnt)
 {
 	s32 iError = BMP280_INIT_VALUE;
 	u8 array[I2C_BUFFER_LEN];
@@ -354,7 +354,7 @@ s8  BMP280_I2C_bus_write(u8 dev_addr, u8 reg_addr, u8 *reg_data, u8 cnt)
  *	\param reg_data : This is the data read from the sensor, which is held in an array
  *	\param cnt : The no of data to be read
  */
-s8  BMP280_I2C_bus_read(u8 dev_addr, u8 reg_addr, u8 *reg_data, u8 cnt)
+__weak s8  BMP280_I2C_bus_read(u8 dev_addr, u8 reg_addr, u8 *reg_data, u8 cnt)
 {
 	s32 iError = BMP280_INIT_VALUE;
 	u8 array[I2C_BUFFER_LEN] = {BMP280_INIT_VALUE};
@@ -382,7 +382,7 @@ s8  BMP280_I2C_bus_read(u8 dev_addr, u8 reg_addr, u8 *reg_data, u8 cnt)
  *	\param reg_data : This is the data read from the sensor, which is held in an array
  *	\param cnt : The no of data to be read
  */
-s8  BMP280_SPI_bus_read(u8 dev_addr, u8 reg_addr, u8 *reg_data, u8 cnt)
+__weak s8  BMP280_SPI_bus_read(u8 dev_addr, u8 reg_addr, u8 *reg_data, u8 cnt)
 {
 	s32 iError=BMP280_INIT_VALUE;
 	u8 array[SPI_BUFFER_LEN]={BUFFER_LENGTH};
@@ -422,7 +422,7 @@ s8  BMP280_SPI_bus_read(u8 dev_addr, u8 reg_addr, u8 *reg_data, u8 cnt)
  *		which is written in the register
  *	\param cnt : The no of bytes of data to be written
  */
-s8  BMP280_SPI_bus_write(u8 dev_addr, u8 reg_addr, u8 *reg_data, u8 cnt)
+__weak s8  BMP280_SPI_bus_write(u8 dev_addr, u8 reg_addr, u8 *reg_data, u8 cnt)
 {
 	s32 iError = BMP280_INIT_VALUE;
 	u8 array[SPI_BUFFER_LEN * BMP280_ADDRESS_INDEX];
@@ -450,7 +450,7 @@ s8  BMP280_SPI_bus_write(u8 dev_addr, u8 reg_addr, u8 *reg_data, u8 cnt)
 /*	Brief : The delay routine
  *	\param : delay in ms
 */
-void  BMP280_delay_msek(u32 msek)
+__weak void  BMP280_delay_msek(u32 msek)
 {
 	/*Here you can write your own delay routine*/
 }
