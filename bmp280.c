@@ -190,6 +190,8 @@ int8_t bmp280_soft_reset(const struct bmp280_dev *dev)
 	int8_t rslt;
 	uint8_t reg_addr = BMP280_SOFT_RESET_ADDR;
 	uint8_t soft_rst_cmd = BMP280_SOFT_RESET_CMD;
+	uint8_t soft_rst_clr_cmd = 0;
+
 
 	rslt = null_ptr_check(dev);
 
@@ -198,6 +200,12 @@ int8_t bmp280_soft_reset(const struct bmp280_dev *dev)
 
 		/* As per the datasheet, startup time is 2 ms. */
 		dev->delay_ms(2);
+	}
+
+	if (rslt == BMP280_OK) {
+		/* ISSUE: BMP280 was returning ZEROs on first I2C read after soft-reset, 
+		clearing the reset register seems to solve this  */ 
+		rslt = bmp280_set_regs(&reg_addr, &soft_rst_clr_cmd, 1, dev);
 	}
 
 	return rslt;
