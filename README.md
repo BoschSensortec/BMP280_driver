@@ -88,7 +88,7 @@ if (rslt == BMP280_OK) {
 > Pre-requisite : Initialize the sensor in SPI or I2C
 
 ```c
-struct bmp280_config bmp;
+struct bmp280_config conf;
 
 /* Always read the current settings before writing, especially when
  * all the configuration is not modified 
