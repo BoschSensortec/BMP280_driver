@@ -391,10 +391,10 @@ int32_t bmp280_comp_temp_32bit(uint32_t uncomp_temp, struct bmp280_dev *dev)
 	rslt = null_ptr_check(dev);
 
 	if (rslt == BMP280_OK) {
-		var1 = ((((uncomp_temp >> 3) - ((int32_t) dev->calib_param.dig_t1 << 1)))
+		var1 = (((((int32_t) uncomp_temp >> 3) - ((int32_t) dev->calib_param.dig_t1 << 1)))
 		* ((int32_t) dev->calib_param.dig_t2)) >> 11;
-		var2 = (((((uncomp_temp >> 4) - ((int32_t) dev->calib_param.dig_t1))
-		* ((uncomp_temp >> 4) - ((int32_t) dev->calib_param.dig_t1))) >> 12)
+		var2 = ((((((int32_t) uncomp_temp >> 4) - ((int32_t) dev->calib_param.dig_t1))
+		* (((int32_t) uncomp_temp >> 4) - ((int32_t) dev->calib_param.dig_t1))) >> 12)
 		* ((int32_t) dev->calib_param.dig_t3)) >> 14;
 
 		dev->calib_param.t_fine = var1 + var2;
@@ -425,7 +425,7 @@ uint32_t bmp280_comp_pres_32bit(uint32_t uncomp_pres, const struct bmp280_dev *d
 		var1 = (((dev->calib_param.dig_p3 * (((var1 >> 2) * (var1 >> 2)) >> 13)) >> 3)
 		+ ((((int32_t) dev->calib_param.dig_p2) * var1) >> 1)) >> 18;
 		var1 = ((((32768 + var1)) * ((int32_t) dev->calib_param.dig_p1)) >> 15);
-		pressure = (((uint32_t) (((int32_t) 1048576) - uncomp_pres) - (var2 >> 12))) * 3125;
+		pressure = (((uint32_t) (((int32_t) 1048576) - ((int32_t) uncomp_pres)) - (var2 >> 12))) * 3125;
 
 		/* Avoid exception caused by division with zero */
 		if (var1 != 0) {
@@ -471,7 +471,7 @@ uint32_t bmp280_comp_pres_64bit(uint32_t uncomp_press, const struct bmp280_dev *
 		+ ((var1 * (int64_t) dev->calib_param.dig_p2) << 12);
 		var1 = ((INT64_C(0x800000000000) + var1) * ((int64_t) dev->calib_param.dig_p1)) >> 33;
 		if (var1 != 0) {
-			pressure = 1048576 - uncomp_press;
+			pressure = 1048576 - ((int32_t) uncomp_press);
 			pressure = (((pressure << 31) - var2) * 3125) / var1;
 			var1 = (((int64_t) dev->calib_param.dig_p9) * (pressure >> 13) * (pressure >> 13)) >> 25;
 			var2 = (((int64_t) dev->calib_param.dig_p8) * pressure) >> 19;
