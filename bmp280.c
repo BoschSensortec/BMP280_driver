@@ -251,6 +251,8 @@ int8_t bmp280_init(struct bmp280_dev *dev)
                 rslt = bmp280_soft_reset(dev);
                 if (rslt == BMP280_OK)
                 {
+                    /* Start-up wait */
+                    dev->delay_ms(10);
                     rslt = get_calib_param(dev);
                 }
                 break;
